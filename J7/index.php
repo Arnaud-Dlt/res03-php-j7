@@ -22,8 +22,7 @@ if(isset($_POST["first_name"] && !empty($_POST["first_name"]))
     else {
         echo "Les mots de passe sont différents !"
     }
-    
-    
+
 }
 
 ?>
