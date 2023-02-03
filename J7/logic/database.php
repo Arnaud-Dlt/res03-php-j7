@@ -30,11 +30,18 @@ function saveUser(User $user): User {
         'email' => $user -> getEmail(),
         'password' => $user -> getPassword()
     ];
-    $query -> execute($parameters);   
+    $query -> execute($parameters);  
+    
+    $query=$db->prepare("SELECT * FROM users WHERE email= :email");
+    $parameters=[ 'email' => $user -> getEmail()];
+    $query->execute($parameters);
+    $loadedUser = $query->fetch(PDO::FETCH_ASSOC);
+    var_dump($loadedUser);
 };
+
 $newUser=new User("Arnaud", "Deletre", "ad@ad.fr", "azerty");
 var_dump($newUser);
 saveUser($newUser);
-
+loadUser("ad@ad.fr")
 
 ?>
