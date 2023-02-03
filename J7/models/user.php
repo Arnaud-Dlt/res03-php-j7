@@ -9,9 +9,9 @@ class User {
     
     public function __construct(string $first_name, string $last_name, string $email, string $password)
     {
-        $this-> id = null;
-        $this-> firstname = $firstname;
-        $this-> lastname = $lastname;
+        $this-> id = -1;
+        $this-> first_name = $first_name;
+        $this-> last_name = $last_name;
         $this-> email = $email;
         $this-> password = $password;
     }
@@ -26,12 +26,12 @@ class User {
     
     public function getFirstName() : string
     {
-        return $this->firstname;
+        return $this->first_name;
     }
     
     public function getLastName() : string
     {
-        return $this->lastname;
+        return $this->last_name;
     }
     
     public function getEmail() : string
@@ -53,12 +53,12 @@ class User {
     
     public function setFirstName(string $firstname) : void
     {
-        $this->firstname = $firstname;
+        $this->first_name = $first_name;
     }
     
-    public function setLastName(string $lastname) : void
+    public function setLastName(string $last_name) : void
     {
-        $this->lastname = $lastname;
+        $this->last_name = $last_name;
     }
     
     public function setEmail(string $email) : void

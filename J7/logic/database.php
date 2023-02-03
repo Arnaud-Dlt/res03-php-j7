@@ -1,4 +1,5 @@
 <?php
+require '../models/user.php';
 
 function loadUser(string $email): User { 
     $db = new PDO(
@@ -29,8 +30,11 @@ function saveUser(User $user): User {
         'email' => $user -> getEmail(),
         'password' => $user -> getPassword()
     ];
-    $query -> execute($parameters);
-    
-}
+    $query -> execute($parameters);   
+};
+$newUser=new User("Arnaud", "Deletre", "ad@ad.fr", "azerty");
+var_dump($newUser);
+saveUser($newUser);
+
 
 ?>
