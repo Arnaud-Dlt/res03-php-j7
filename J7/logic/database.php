@@ -39,7 +39,7 @@ function saveUser(User $user): User {
     ];
     $query -> execute($parameters);
 
-    return $user;
+    return loadUser($user->getEmail());
 };
 $user1=new User("Arnaud","deletre","afez@fze.fr", "azerty");
 var_dump(saveUser($user1));
