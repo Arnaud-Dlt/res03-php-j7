@@ -1,5 +1,4 @@
 <?php
-require '../models/user.php';
 
 function loadUser(string $email): User { 
     $db = new PDO(
@@ -41,9 +40,5 @@ function saveUser(User $user): User {
 
     return loadUser($user->getEmail());
 };
-$user1=new User("Arnaud","deletre","afez@fze.fr", "azerty");
-var_dump(saveUser($user1));
-$loadUser=loadUser("afez@fze.fr");
-var_dump($loadUser);
 
 ?>
