@@ -1,6 +1,7 @@
 <?php
+require 'models/user.php';
 
-function loadUser(string $email): User { 
+function loadUser(string $email): ? User { 
     $db = new PDO(
     "mysql:host=db.3wa.io;port=3306;dbname=arnauddeletre_phpj7",
     "arnauddeletre",
@@ -14,6 +15,10 @@ function loadUser(string $email): User {
     $query->execute($parameters);
     
     $loadedUser = $query->fetch(PDO::FETCH_ASSOC);
+    
+    if($loadedUser===false){
+        return null;
+    }
     
     $newUser=new User($loadedUser["first_name"],$loadedUser["last_name"],$loadedUser["email"],$loadedUser["password"]);
     

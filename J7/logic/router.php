@@ -9,7 +9,14 @@ function checkRoute(string $route) : void
         require 'pages/register.php';
     }
     else if($route === "mon-compte"){
-        require 'pages/account.php';
+        if($_SESSION["connectedUser"]===true)
+        {
+            require 'pages/account.php';
+        }
+        else 
+        {
+            echo "Session expiré";
+        }
     }
     else {
         require 'pages/homepage.php';

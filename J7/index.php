@@ -1,7 +1,68 @@
 <?php
+session_start();
+
 require 'logic/router.php';
 require 'logic/database.php';
-require 'models/user.php';
+
+
+//CONDITION INSCRIPTION
+
+if(isset($_POST["first_name"]) && !empty($_POST["first_name"])
+&& isset($_POST["last_name"]) && !empty($_POST["last_name"])
+&& isset($_POST["emailRegister"]) && !empty($_POST["emailRegister"])
+&& isset($_POST["passwordRegister"]) && !empty($_POST["passwordRegister"])
+&& isset($_POST["confirm-password"]) && !empty($_POST["confirm-password"]))
+{
+    if($_POST["passwordRegister"] === $_POST["confirm-password"]){
+        
+        $hashPwd=password_hash($_POST["passwordRegister"], PASSWORD_DEFAULT);
+        
+        $newUser=new User($_POST['first_name'],$_POST['last_name'],$_POST['emailRegister'], $hashPwd);
+        
+        saveUser($newUser);
+    }
+    
+    else {
+        echo "Les mots de passe sont différents !";
+    }
+    
+    if(loadUser($_POST['emailRegister']===null)){
+        echo "Email déjà utilisé";
+    }
+
+}
+else if(isset($_POST['first_name']) && empty($_POST['first_name'])){
+    echo "Veuillez saisir un Prenom";
+}
+else if(isset($_POST['last_name']) && empty($_POST['last_name'])){
+    echo "Veuillez saisir un Nom";
+}
+else if(isset($_POST['emailRegister']) && empty($_POST['emailRegister'])){
+    echo "Veuillez saisir un Email";
+}
+
+//CONDITION CONNEXION
+
+if(isset($_POST['emailLog'])&& !empty($_POST["emailLog"]) && isset($_POST['passwordLog']) && !empty($_POST["passwordLog"]))
+{
+    $logEmail=$_POST["emailLog"];
+    $pwd=$_POST["passwordLog"];
+    $userToConnect=loadUser($logEmail);
+    
+    if(password_verify($pwd, $userToConnect->getPassword()))
+    {
+        echo "Bienvenue";
+        $_GET["route"]="mon-compte";
+        $_SESSION["connectedUser"] = true;
+        $_SESSION["userId"] = $userToConnect->getId();
+        var_dump($_SESSION);
+    }
+    else 
+    {
+        echo "Identifiants inconnus";
+        
+    }
+}
 
 if(isset($_GET["route"])){
     
@@ -13,45 +74,6 @@ if(isset($_GET["route"])){
 else {
     checkRoute("");
 };
-
-
-//CONDITION INSCRIPTION
-
-if(isset($_POST["first_name"]) && !empty($_POST["first_name"])
-&& isset($_POST["last_name"]) && !empty($_POST["last_name"])
-&& isset($_POST["email"]) && !empty($_POST["email"])
-&& isset($_POST["password"]) && !empty($_POST["password"])
-&& isset($_POST["confirm-password"]) && !empty($_POST["confirm-password"]))
-{
-    if($_POST["password"] === $_POST["confirm-password"]){
-        
-        $hashPwd=password_hash($_POST["password"], PASSWORD_DEFAULT);
-        
-        $newUser=new User($_POST['first_name'],$_POST['last_name'],$_POST['email'], $hashPwd);
-        
-        saveUser($newUser);
-    }
-    
-    else {
-        echo "Les mots de passe sont différents !";
-    }
-
-}
-else if(isset($_POST['first_name']) && empty($_POST['first_name'])){
-    echo "Veuillez saisir un Prenom";
-}
-else if(isset($_POST['last_name']) && empty($_POST['last_name'])){
-    echo "Veuillez saisir un Nom";
-}
-else if(isset($_POST['email']) && empty($_POST['email'])){
-    echo "Veuillez saisir un Email";
-}
-
-
-//CONDITION CONNEXION
-
-if($_POST['email'] === ) && $_POST['password'] === {
-    $verifPwd=password_verify();
-}
-
 ?>
+
+
